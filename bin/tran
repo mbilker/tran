@@ -15,8 +15,6 @@ var argv = require('minimist')(process.argv.slice(2), {
 var cmd = argv._[0];
 var file = argv._[1];
 
-console.log(argv);
-
 if (cmd === 'send') {
   lib.send(file, argv.host, argv.port);
 } else if (cmd === 'receive') {

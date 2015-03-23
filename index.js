@@ -3,6 +3,8 @@
 var fs = require('fs');
 var net = require('net');
 
+var bar = require('transfer-bar');
+
 var PREFIX = 'ACK_FILE||';
 var START_SENDING = 'ACK_STARTSEND';
 
@@ -15,7 +17,18 @@ exports.send = function send(file, host, port) {
     if (info === START_SENDING) {
       console.log('acknowlege received, sending file data...');
 
-      fs.createReadStream(file).pipe(socket);
+      var stat = fs.statSync(file);
+      var b = bar(stat.size);
+      var written = 0;
+
+      fs.createReadStream(file).on('data', function(chunk) {
+        socket.write(chunk);
+
+        written += chunk.length;
+        b.update(written);
+      }).on('end', function() {
+        socket.end();
+      });
     }
   });
   socket.write(PREFIX + file + '\n');
