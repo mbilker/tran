@@ -10,8 +10,8 @@ Run the program in one of two modes:
 
 Mode|Description|Arguments
 ----|-----------|---------
-r(eceive)|To receive a file.|--port <port to listen on>
-s(end)|To send a file to another host|--host <destination ip> --port <port to connect to> <file to send>
+r(eceive)|To receive a file.|--port 'port to listen on'
+s(end)|To send a file to another host|--host 'destination ip' --port 'port to connect to' 'file to send'
 
 ## Example Receive
 ```sh
