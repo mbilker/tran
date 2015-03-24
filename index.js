@@ -35,10 +35,20 @@ exports.send = function send(file, host, port) {
 
       bar = _createStatusBar(file, stat.size);
 
-      fs.createReadStream(file).on('data', function(chunk) {
-        socket.write(chunk, function() {
+      var read = fs.createReadStream(file);
+
+      read.on('data', function(chunk) {
+        var res = socket.write(chunk, function() {
           bar.write(chunk);
         });
+
+        if (res === false) {
+          read.pause();
+        }
+      });
+
+      socket.on('drain', function() {
+        read.resume();
       });
 
       bar.on('finish', function() {
@@ -77,9 +87,17 @@ exports.receive = function receive(port) {
       var writeStream = fs.createWriteStream(file);
 
       conn.on('data', function(chunk) {
-        writeStream.write(chunk, function() {
+        var res = writeStream.write(chunk, function() {
           bar.write(chunk);
         });
+
+        if (res === false) {
+          conn.pause();
+        }
+      });
+
+      writeStream.on('drain', function() {
+        conn.resume();
       });
 
       bar.on('finish', function() {
