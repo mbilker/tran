@@ -10,7 +10,9 @@
   "author": "mbilker <me@mbilker.us>",
   "license": "MIT",
   "dependencies": {
+    "keymirror": "^0.1.1",
     "minimist": "^1.1.1",
-    "status-bar": "^2.0.3"
+    "status-bar": "^2.0.3",
+    "wrtc": "0.0.55"
   }
 }

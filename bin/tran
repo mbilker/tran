@@ -12,11 +12,12 @@ var argv = require('minimist')(process.argv.slice(2), {
   }
 });
 
-var cmd = argv._[0];
-var file = argv._[1];
+var cmd = argv._.shift();
+var files = argv._;
 
 if (cmd === 'send') {
-  lib.send(file, argv.host, argv.port);
+  //lib.send(files, argv.host, argv.port);
+  console.log(files);
 } else if (cmd === 'receive') {
   lib.receive(argv.port);
 } else {
